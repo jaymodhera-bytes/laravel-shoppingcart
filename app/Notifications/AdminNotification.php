@@ -40,9 +40,7 @@ class AdminNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('New Order Placed');
-                    // ->action('Notification Action', url('/'))
+        return (new MailMessage)->line('New Order Placed');
     }
 
     /**

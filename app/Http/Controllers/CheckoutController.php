@@ -13,11 +13,25 @@ use Event;
 use App\Events\OrderEvent;
 
 class CheckoutController extends Controller
-{
+{   
+    /**
+     * Show the checkout page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('checkout');
     }
+
+
+    /**
+     * Place order function
+     *
+     * @param Request $request  request object
+     * 
+     * @return void
+     */
     public function placeOrder(Request $request)
     {
         $isTesting     = (null !== $request->isTesting) ? true : false;
@@ -28,24 +42,24 @@ class CheckoutController extends Controller
         if ($blockedCountries) {
             return redirect()->back()->with('error', 'Your country is blocked for placing an order!');
         } else {
-          $order = Order::create($request->all());
-          $items = session()->get('cart');
+            $order = Order::create($request->all());
+            $items = session()->get('cart');
 
     	    if ($order) {
-      	       foreach ($items as $item) {
-              		$product = Product::where('name', $item['name'])->first();
+      	        foreach ($items as $item) {
+              		$product   = Product::where('name', $item['name'])->first();
               		$orderItem = new OrderItem([
-                      'product_id'    =>  $product->id,
+                      'product_id'  =>  $product->id,
                       'order_id'    =>  $product->id,
-                      'quantity'      =>  $item['quantity']
-                  ]);
+                      'quantity'    =>  $item['quantity']
+                    ]);
 
               		$order->items()->save($orderItem);
               	}
               	event(new OrderEvent($request->all(),$product,$item['quantity']));
               	Session::forget('cart');
                 return redirect()->route('index')->with('status', 'Your order placed!');
-    	     }
+    	    }
         }
     }
 }

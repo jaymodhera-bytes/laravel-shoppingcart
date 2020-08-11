@@ -19,10 +19,11 @@ class OrderPlaced extends Notification implements ShouldQueue
     public $request;
     public $product;
     public $quantity;
+    
     public function __construct($request,$product,$quantity)
     {
-        $this->request = $request;       
-        $this->product = $product;                
+        $this->request  = $request;       
+        $this->product  = $product;                
         $this->quantity = $quantity;                
     }
 
