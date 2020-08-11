@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class OrderPlaced extends Notification implements ShouldQueue
+class AdminNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,14 +16,9 @@ class OrderPlaced extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public $request;
-    public $product;
-    public $quantity;
-    public function __construct($request,$product,$quantity)
+    public function __construct()
     {
-        $this->request = $request;       
-        $this->product = $product;                
-        $this->quantity = $quantity;                
+        //
     }
 
     /**
@@ -46,8 +41,8 @@ class OrderPlaced extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                ->line('Your order is confirmed.')
-                ->markdown('emails.test',['product'=>$this->product, 'quantity'=>$this->quantity]);
+                    ->line('New Order Placed');
+                    // ->action('Notification Action', url('/'))
     }
 
     /**

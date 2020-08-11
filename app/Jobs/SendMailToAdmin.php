@@ -8,9 +8,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Notification;
-use App\Notifications\OrderPlaced;
+use App\Notifications\AdminNotification;
 
-class SendOrderEmail implements ShouldQueue
+class SendMailToAdmin implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,13 +21,11 @@ class SendOrderEmail implements ShouldQueue
      */
     public $request;
     public $product;
-    public $quantity;
 
-    public function __construct($request,$product,$quantity)
+    public function __construct($request,$product)
     {
         $this->request = $request;    
-        $this->product = $product;            
-        $this->quantity = $quantity;            
+        $this->product = $product;    
     }
 
     /**
@@ -37,7 +35,7 @@ class SendOrderEmail implements ShouldQueue
      */
     public function handle()
     {
-        Notification::route('mail', $this->request['email'])            
-            ->notify(new OrderPlaced($this->request,$this->product,$this->quantity));            
+        Notification::route('mail', 'ketan.patel@bytestechnolab.com')            
+            ->notify(new AdminNotification($this->request,$this->product));       
     }
 }

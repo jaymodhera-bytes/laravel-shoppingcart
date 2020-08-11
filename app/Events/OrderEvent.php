@@ -21,10 +21,14 @@ class OrderEvent
      * @return void
      */
     public $request;
-
-    public function __construct($request)
+    public $product;
+    public $quantity;
+    public function __construct($request,$product,$quantity)
     {
         $this->request = $request;
+        $this->product = $product;
+        $this->quantity = $quantity;
+        // dd($quantity);
     }
 
     /**

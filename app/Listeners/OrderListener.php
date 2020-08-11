@@ -6,6 +6,7 @@ use App\Events\OrderEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\SendOrderEmail;
+use App\Jobs\SendMailToAdmin;
 
 class OrderListener
 {
@@ -27,6 +28,7 @@ class OrderListener
      */
     public function handle(OrderEvent $event)
     {
-        dispatch(new SendOrderEmail($event->request));        
+        dispatch(new SendOrderEmail($event->request, $event->product, $event->quantity));   
+        dispatch(new SendMailToAdmin($event->request, $event->product));     
     }
 }

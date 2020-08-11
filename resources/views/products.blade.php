@@ -7,7 +7,11 @@
     <div class="container products">
 
         <span id="status"></span>
-
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
         <div class="row">
 
             @foreach($products as $product)

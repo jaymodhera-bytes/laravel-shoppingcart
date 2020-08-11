@@ -11,7 +11,7 @@ use Session;
 use App\Notifications\OrderPlaced;
 use Event;
 use App\Events\OrderEvent;
-
+// use App\Jobs\SendMailToAdmin;
 class CheckoutController extends Controller
 {
     public function index()
@@ -36,13 +36,12 @@ class CheckoutController extends Controller
                 'quantity'      =>  $item['quantity']
             ]);
 
-        	$order->items()->save($orderItem);
+        		$order->items()->save($orderItem);
         	}
-        	event(new OrderEvent($request));
+        	event(new OrderEvent($request->all(),$product,$item['quantity']));        	
         	Session::forget('cart');
 
-            return redirect()->route('index')->json(['msg' => 'Your order is placed!']);;
-
+            return redirect()->route('index')->with('status', 'Your order placed!');
 	    }
     }
 }
