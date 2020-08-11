@@ -6,7 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
-{   
+{
 
     /**
      * Display a listing of the products.
@@ -36,7 +36,7 @@ class ProductsController extends Controller
      * add the product into cart
      *
      * @param integer  $id
-     * 
+     *
      * @return Response
      */
     public function addToCart($id)
@@ -62,7 +62,7 @@ class ProductsController extends Controller
             session()->put('cart', $cart);
             $htmlCart = view('_header_cart')->render();
 
-            return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart]);
+            return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart], 200);
         }
 
         // if cart not empty then check if this product exist then increment quantity
@@ -71,7 +71,7 @@ class ProductsController extends Controller
             session()->put('cart', $cart);
             $htmlCart = view('_header_cart')->render();
 
-            return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart]);
+            return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart], 200);
         }
 
         // if item not exist in cart then add to cart with quantity = 1
@@ -88,12 +88,12 @@ class ProductsController extends Controller
         return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart]);
     }
 
-    
+
     /**
      * Update the cart item
      *
      * @param Request $request  request object
-     * 
+     *
      * @return void
      */
     public function update(Request $request)
@@ -103,7 +103,7 @@ class ProductsController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
 
             session()->put('cart', $cart);
-            
+
             $subTotal = $cart[$request->id]['quantity'] * $cart[$request->id]['price'];
             $total    = $this->getCartTotal();
             $htmlCart = view('_header_cart')->render();
@@ -117,7 +117,7 @@ class ProductsController extends Controller
      * Remove the cart item
      *
      * @param Request $request  request object
-     * 
+     *
      * @return void
      */
     public function remove(Request $request)

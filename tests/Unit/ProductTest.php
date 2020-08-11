@@ -13,7 +13,7 @@ class ProductTest extends TestCase
         $res = $this->call('GET', '/');
         $res->assertViewHas('products');
         $productsOnView = $res->original['products'];
-        $res->assertViewHas('products', $productsOnView);    
+        $res->assertViewHas('products', $productsOnView);
     }
 
     public function testAddInvalidProductInCart() {
@@ -27,6 +27,6 @@ class ProductTest extends TestCase
         $response  = $this->withSession(array('cart' => array('id' => $productId)))
                     ->get("/add-to-cart/$productId");
         $response->assertSessionHas('cart');
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(200, $response->status());
     }
 }

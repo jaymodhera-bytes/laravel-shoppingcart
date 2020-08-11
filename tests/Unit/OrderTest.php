@@ -11,11 +11,11 @@ class OrderTest extends TestCase
 {
     public function testPlaceBlockedCountryOrder() {
         // by pass csrf token for test case
-        $this->withoutMiddleware(); 
+        $this->withoutMiddleware();
         $product   = DB::table('products')->where('id', '>', 0)->first();
         $productId = $product->id;
 
-        // prepare the dummy cart data    
+        // prepare the dummy cart data
         $cartData  = array(
             'cart' => array(
                 $productId => array(
@@ -26,7 +26,7 @@ class OrderTest extends TestCase
                 )
             )
         );
-        
+
         // prepare dummy order shipping data
         $orderData = array(
             'email'             => 'test.user@example.com',
@@ -46,11 +46,11 @@ class OrderTest extends TestCase
 
     public function testPlaceValidOrder() {
         // by pass csrf token for test case
-        $this->withoutMiddleware(); 
+        $this->withoutMiddleware();
         $product   = DB::table('products')->where('id', '>', 0)->first();
         $productId = $product->id;
 
-        // prepare the dummy cart data    
+        // prepare the dummy cart data
         $cartData  = array(
             'cart' => array(
                 $productId => array(
@@ -72,26 +72,26 @@ class OrderTest extends TestCase
             'country_code'      => 'SO',
             'zip_postal_code'   => '111111', // sample code, dont change this value
         );
-        
+
         $response = $this->withSession($cartData)->post('/checkout/order', $orderData);
         $this->assertEquals(302, $response->status());
 
-        // check if the record inserted in orders table    
+        // check if the record inserted in orders table
         $this->assertDatabaseHas('orders', [
             'city'            => 'test_city',
             'zip_postal_code' => '111111'
         ]);
-        
+
         // get the inserted order id value
         $insertedOrder = DB::table('orders')
             ->where('city', 'test_city')
             ->where('zip_postal_code', '111111')
             ->orderBy('id','DESC')
             ->first();
-        $orderId = $insertedOrder->id;        
+        $orderId = $insertedOrder->id;
 
-        // check if the record inserted in order_items table    
-        $this->assertDatabaseHas('order_items', ['id' => $orderId]);    
+        // check if the record inserted in order_items table
+        $this->assertDatabaseHas('order_items', ['id' => $orderId]);
 
         // delete the sample record from table
         $orderItemRecord = DB::table('order_items')
