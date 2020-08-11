@@ -127,6 +127,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Country blocking Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the countries from which you want to block
+    | the order placement. You have to provide two-letter country abbreviation
+    | for the countries. You can check : https://www.iban.com/country-codes
+    |
+    | Values example: "IN", "SO", "US", "TR" etc..
+    |
+    */
+    'blocked_countries' => ['SO'], // SO is for Somalia
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

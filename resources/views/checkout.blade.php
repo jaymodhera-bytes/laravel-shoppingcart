@@ -4,7 +4,12 @@
 
 @section('content')
  <div class="container clearfix">
-        <h2 class="title-page">Checkout</h2>
+       @if(session('error'))
+           <div class="alert alert-danger">
+               {{ session('error') }}
+           </div>
+       @endif
+       <h2 class="title-page">Checkout</h2>
     </div>
     <div class="container">
         <!-- <a href="{{ route('cart') }}">Back to cart</a> -->
